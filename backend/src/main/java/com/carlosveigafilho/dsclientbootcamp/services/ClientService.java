@@ -1,6 +1,7 @@
 package com.carlosveigafilho.dsclientbootcamp.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,5 +22,12 @@ public class ClientService {
 	public List<ClientDTO> findAll(){
 		List<Client> list = repository.findAll();
 		return list.stream().map(obj -> new ClientDTO(obj)).collect(Collectors.toList());
+	}
+
+	@Transactional
+	public ClientDTO findById(Long id) {
+		Optional<Client> obj = repository.findById(id);
+		return new ClientDTO(obj.get());
+		
 	}
 }
