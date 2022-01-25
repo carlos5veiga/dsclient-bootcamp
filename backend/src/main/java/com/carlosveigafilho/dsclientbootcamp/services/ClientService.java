@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.carlosveigafilho.dsclientbootcamp.dto.ClientDTO;
 import com.carlosveigafilho.dsclientbootcamp.entities.Client;
 import com.carlosveigafilho.dsclientbootcamp.repositories.ClientRepository;
+import com.carlosveigafilho.dsclientbootcamp.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ClientService {
@@ -27,7 +28,7 @@ public class ClientService {
 	@Transactional
 	public ClientDTO findById(Long id) {
 		Optional<Client> obj = repository.findById(id);
-		return new ClientDTO(obj.get());
-		
+		Client entity = obj.orElseThrow(() -> new ObjectNotFoundException("Id not found: " + id));
+		return new ClientDTO(entity);
 	}
 }
